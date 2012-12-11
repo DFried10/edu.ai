@@ -38,8 +38,11 @@ class App(tk.Tk):
         """
         Menu Options (For hopefully selecting AI style and what not)
         """
-        self.options = tk.OptionMenu(self, "Menu", "Start")
-        self.options.grid(row=0, column=0, columnspan=5)
+        optionlist = ('Restart', 'Random', 'Rule-Based', 'Exit')
+        self.v = tk.StringVar();
+        self.v.set(optionlist[0])
+        self.options = tk.OptionMenu(self, self.v, *optionlist)
+        self.options.grid(row=0, column=0)
         
         self.cellwidth = 62.5
         self.cellheight = 62.5
