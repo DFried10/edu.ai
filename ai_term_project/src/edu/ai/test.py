@@ -262,7 +262,8 @@ class ComputerPlayer():
                 if (self.validateMove(current_pos, new_pos)):
                     return self.perform_move(current_pos, new_pos)
     
-        
+    
+    #Test comment for test commit!    
     def minimax(self,count):
         if(count > 3): #Return the best move after X number of iterations
             return 0;
