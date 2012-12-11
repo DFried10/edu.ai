@@ -92,8 +92,9 @@ class App(tk.Tk):
         
             #Controls computer move    
             self.computer.update_board(self.theBoard)
-            self.computer.make_random_move()
-            self.computer.minimax(0);
+            self.computer.make_random_move() 
+            self.computer.make_rule_based_move() #Not actually performing moves yet, I have this called for debugging purposes!
+            #self.computer.minimax(0);
             self.theBoard = self.computer.get_board()
         
         self.redrawFullBoard()
@@ -263,7 +264,20 @@ class ComputerPlayer():
                     return self.perform_move(current_pos, new_pos)
     
     
-    #Test comment for test commit!    
+    def make_rule_based_move(self):
+        
+        validMove = True
+        
+        for p in self.board:
+            for check in p:
+                if((check != 0) and (check.player == 1)):
+                    #This will look through all of the computer's pieces
+                    print(check.get_current_pos())
+        
+        
+        
+    
+    #Test comment for test commit! This method does nothing so far. Not sure if it ever will.
     def minimax(self,count):
         if(count > 3): #Return the best move after X number of iterations
             return 0;
