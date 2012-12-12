@@ -293,32 +293,67 @@ class ComputerPlayer():
     
     #Leaving this as a base rule...checks all positions that a piece could move to
     #Obviously we can expand from this to check certain things (ie is an enemy piece near etc)
+    
+    
+    
     def rule1(self,piece):
         original_pos = piece.get_current_pos();
-        new_pos = original_pos;
-        new_pos[0] += 1;
-        new_pos[1] += 1;
-        if(self.validateMove(original_pos, new_pos)):
-            return new_pos; 
-        new_pos = original_pos;
-        new_pos[0] += 1;
-        new_pos[1] -= 1;
-        if(self.validateMove(original_pos, new_pos)):
-            return new_pos
+        
+        #Looking at the board:
+        #Down and to the right
+        newX = original_pos[0]+1
+        newY = original_pos[1]+1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            return True
+        
+        #Down and to the left
+        newX = original_pos[0]+1
+        newY = original_pos[1]-1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            return True
                                                     
         #King's only
         if(piece.getIsKing):
-            new_pos = original_pos;
-            new_pos[0] -= 1;
-            new_pos[1] += 1;
-            if(self.validateMove(original_pos, new_pos)):
-                return new_pos 
-            new_pos = original_pos;
-            new_pos[0] -= 1;
-            new_pos[1] -= 1;
-            if(self.validateMove(original_pos, new_pos)):
-                return new_pos
-        return False #None of these moves were valid
+            
+            #Up and to the right
+            newX = original_pos[0]-1
+            newY = original_pos[1]+1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return True
+            
+            #Up and to the left
+            newX = original_pos[0]-1
+            newY = original_pos[1]-1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return True
+            
+        return False #None of these triggered the rule
+        
+    
+    def rule2(self,piece):
+        original_pos = piece.get_current_pos();
+        
+        #Looking at the board:
+        #Down and to the right
+        print(self.get_board()[original_pos[0]+1][original_pos[1]+1])
+        
+        #Down and to the left
+        print(self.get_board()[original_pos[0]+1][original_pos[1]-1])
+                                                    
+        #King's only
+        if(piece.getIsKing):
+            
+            #Up and to the right
+            print(self.get_board()[original_pos[0]+1][original_pos[1]-1])
+            
+            #Up and to the left
+            print(self.get_board()[original_pos[0]+1][original_pos[1]-1])
+            
+        return False #None of these triggered the rule
         
     
     #Test comment for test commit! This method does nothing so far. Not sure if it ever will.
