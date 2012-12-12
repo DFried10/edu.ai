@@ -105,7 +105,6 @@ class App(tk.Tk):
             self.computer.update_board(self.theBoard)
             self.computer.make_random_move() 
             self.computer.make_rule_based_move() #Not actually performing moves yet, I have this called for debugging purposes!
-            #self.computer.minimax(0);
             self.theBoard = self.computer.get_board()
         
         self.redrawFullBoard()
@@ -284,18 +283,15 @@ class ComputerPlayer():
                 if((check != 0) and (check.player == 1)):
                     #This will look through all of the computer's pieces
                     print(check.get_current_pos())
-                    print(self.rule1(check))
-                    if(self.rule1(check) != False):
+                    print(self.rule2(check)) #Debugging
+                    if(self.rule2(check) != False):
                         #Move Piece
-                        1+1
+                        print("HELLO!")
                         #return self.perform_move(check.get_current_pos, self.rule1(check))
                     
     
-    #Leaving this as a base rule...checks all positions that a piece could move to
-    #Obviously we can expand from this to check certain things (ie is an enemy piece near etc)
-    
-    
-    
+    #Rule 1 is just a template for making more rule methods!
+    #Iterates over all the possible moves a computer piece can make
     def rule1(self,piece):
         original_pos = piece.get_current_pos();
         
@@ -333,38 +329,87 @@ class ComputerPlayer():
             
         return False #None of these triggered the rule
         
-    
+    #Rule 2 checks for a player piece to jump on!
     def rule2(self,piece):
         original_pos = piece.get_current_pos();
         
         #Looking at the board:
         #Down and to the right
-        print(self.get_board()[original_pos[0]+1][original_pos[1]+1])
+        newX = original_pos[0]+1
+        newY = original_pos[1]+1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+            if(lookingAt != 0):
+                if(lookingAt.getPlayer() == 2):
+                    return new_pos
         
         #Down and to the left
-        print(self.get_board()[original_pos[0]+1][original_pos[1]-1])
+        newX = original_pos[0]+1
+        newY = original_pos[1]-1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+            if(lookingAt != 0):
+                if(lookingAt.getPlayer() == 2):
+                    return new_pos
                                                     
         #King's only
         if(piece.getIsKing):
             
             #Up and to the right
-            print(self.get_board()[original_pos[0]+1][original_pos[1]-1])
+            newX = original_pos[0]-1
+            newY = original_pos[1]+1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return new_pos
             
             #Up and to the left
-            print(self.get_board()[original_pos[0]+1][original_pos[1]-1])
+            newX = original_pos[0]-1
+            newY = original_pos[1]-1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return new_pos
             
         return False #None of these triggered the rule
-        
     
-    #Test comment for test commit! This method does nothing so far. Not sure if it ever will.
-    def minimax(self,count):
-        if(count > 3): #Return the best move after X number of iterations
-            return 0;
-        else:
-            print("Count" + count);
+    #First move that doesn't endanger the piece (essentially an improved random move) Should be used last in the rule list in most cases
+    def rule3(self,piece):
+        original_pos = piece.get_current_pos();
+        
+        #Looking at the board:
+        #Down and to the right
+        newX = original_pos[0]+1
+        newY = original_pos[1]+1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            return True
+        
+        #Down and to the left
+        newX = original_pos[0]+1
+        newY = original_pos[1]-1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            return True
+                                                    
+        #King's only
+        if(piece.getIsKing):
             
-            ++count #Getting ready for some recursion here
-            return self(count)
+            #Up and to the right
+            newX = original_pos[0]-1
+            newY = original_pos[1]+1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return True
+            
+            #Up and to the left
+            newX = original_pos[0]-1
+            newY = original_pos[1]-1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return True
+            
+        return False #None of these triggered the rule
             
         
         
