@@ -280,7 +280,7 @@ class ComputerPlayer():
                     if(self.rule1(check) != False):
                         #Move Piece
                         1+1
-                        return self.perform_move(check.get_current_pos, self.rule1(check))
+                        #return self.perform_move(check.get_current_pos, self.rule1(check))
                     
     
     #Leaving this as a base rule...checks all positions that a piece could move to
