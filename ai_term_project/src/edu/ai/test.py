@@ -276,8 +276,41 @@ class ComputerPlayer():
                 if((check != 0) and (check.player == 1)):
                     #This will look through all of the computer's pieces
                     print(check.get_current_pos())
-        
-        
+                    print(self.rule1(check))
+                    if(self.rule1(check) != False):
+                        #Move Piece
+                        1+1
+                        return self.perform_move(check.get_current_pos, self.rule1(check))
+                    
+    
+    #Leaving this as a base rule...checks all positions that a piece could move to
+    #Obviously we can expand from this to check certain things (ie is an enemy piece near etc)
+    def rule1(self,piece):
+        original_pos = piece.get_current_pos();
+        new_pos = original_pos;
+        new_pos[0] += 1;
+        new_pos[1] += 1;
+        if(self.validateMove(original_pos, new_pos)):
+            return new_pos; 
+        new_pos = original_pos;
+        new_pos[0] += 1;
+        new_pos[1] -= 1;
+        if(self.validateMove(original_pos, new_pos)):
+            return new_pos
+                                                    
+        #King's only
+        if(piece.getIsKing):
+            new_pos = original_pos;
+            new_pos[0] -= 1;
+            new_pos[1] += 1;
+            if(self.validateMove(original_pos, new_pos)):
+                return new_pos 
+            new_pos = original_pos;
+            new_pos[0] -= 1;
+            new_pos[1] -= 1;
+            if(self.validateMove(original_pos, new_pos)):
+                return new_pos
+        return False #None of these moves were valid
         
     
     #Test comment for test commit! This method does nothing so far. Not sure if it ever will.
