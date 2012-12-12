@@ -277,7 +277,7 @@ class ComputerPlayer():
     def make_rule_based_move(self):
         
         validMove = False
-        
+
         while(validMove == False):
             for p in self.board:
                 for check in p:
@@ -287,7 +287,8 @@ class ComputerPlayer():
                         print(self.rule2(check)) #Debugging
                         if(self.rule2(check) != False):
                             #Move Piece
-                            print("HELLO!")
+                            validMove = True
+                        else:
                             validMove = True
                             #return self.perform_move(check.get_current_pos, self.rule1(check))
                     
