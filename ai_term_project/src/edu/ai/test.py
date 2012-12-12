@@ -276,18 +276,20 @@ class ComputerPlayer():
     
     def make_rule_based_move(self):
         
-        validMove = True
+        validMove = False
         
-        for p in self.board:
-            for check in p:
-                if((check != 0) and (check.player == 1)):
-                    #This will look through all of the computer's pieces
-                    print(check.get_current_pos())
-                    print(self.rule2(check)) #Debugging
-                    if(self.rule2(check) != False):
-                        #Move Piece
-                        print("HELLO!")
-                        #return self.perform_move(check.get_current_pos, self.rule1(check))
+        while(validMove == False):
+            for p in self.board:
+                for check in p:
+                    if((check != 0) and (check.player == 1)):
+                        #This will look through all of the computer's pieces
+                        print(check.get_current_pos())
+                        print(self.rule2(check)) #Debugging
+                        if(self.rule2(check) != False):
+                            #Move Piece
+                            print("HELLO!")
+                            validMove = True
+                            #return self.perform_move(check.get_current_pos, self.rule1(check))
                     
     
     #Rule 1 is just a template for making more rule methods!
