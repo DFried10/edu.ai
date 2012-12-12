@@ -8,11 +8,13 @@ This is the main module for our checkers game.
 
 import tkinter as tk
 import random as rand
+import sys as system
 from sys import argv
 from edu.ai import piece
 #from edu.ai import rule
 
 #Global variables
+option_str = ''
 error_messages = 0
 is_jump = False
 
@@ -20,6 +22,7 @@ class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         global error_messages
+        global option_str
         error_messages = tk.StringVar()
         error_messages.set("")
         self.canvas = tk.Canvas(self, width="500", height="500", borderwidth="0")
@@ -39,9 +42,9 @@ class App(tk.Tk):
         Menu Options (For hopefully selecting AI style and what not)
         """
         optionlist = ('Restart', 'Random', 'Rule-Based', 'Exit')
-        self.v = tk.StringVar();
-        self.v.set(optionlist[0])
-        self.options = tk.OptionMenu(self, self.v, *optionlist)
+        option_str = tk.StringVar();
+        option_str.set(optionlist[0])
+        self.options = tk.OptionMenu(self, option_str, *optionlist)
         self.options.grid(row=0, column=0)
         
         self.cellwidth = 62.5
@@ -52,6 +55,11 @@ class App(tk.Tk):
         self.theBoard = self.createBoard()
         self.computer = ComputerPlayer(self.theBoard)
         self.redrawFullBoard()
+        
+        def optionCallBack(self, *args):
+            if (option_str.get() == 'Exit'):
+                system.exit();
+        option_str.trace('w', optionCallBack)
         
         
     
