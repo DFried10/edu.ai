@@ -457,6 +457,42 @@ class ComputerPlayer():
         return False #None of these triggered the rule
             
         
+        def rule4(self,piece):
+            original_pos = piece.get_current_pos();
+            
+            #Looking at the board:
+            #Down and to the right
+            newX = original_pos[0]+1
+            newY = original_pos[1]+1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return True
+            
+            #Down and to the left
+            newX = original_pos[0]+1
+            newY = original_pos[1]-1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                return True
+                                                        
+            #King's only
+            if(piece.getIsKing):
+                
+                #Up and to the right
+                newX = original_pos[0]-1
+                newY = original_pos[1]+1
+                new_pos = [newX,newY]
+                if(self.validateMove(original_pos,new_pos)):
+                    return True
+                
+                #Up and to the left
+                newX = original_pos[0]-1
+                newY = original_pos[1]-1
+                new_pos = [newX,newY]
+                if(self.validateMove(original_pos,new_pos)):
+                    return True
+                
+            return False #None of these triggered the rule
         
                 
     def find_piece(self):
