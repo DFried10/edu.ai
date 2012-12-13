@@ -80,7 +80,25 @@ class App(tk.Tk):
                     [piece.Piece(2,5,0),0,piece.Piece(2,5,2),0,piece.Piece(2,5,4),0,piece.Piece(2,5,6),0],
                     [0,piece.Piece(2,6,1),0,piece.Piece(2,6,3),0,piece.Piece(2,6,5),0,piece.Piece(2,6,7)],
                     [piece.Piece(2,7,0),0,piece.Piece(2,7,2),0,piece.Piece(2,7,4),0,piece.Piece(2,7,6),0]]
+        """
+        newBoard = [[0,0,0,0,0,0,0,piece.Piece(1,0,7)],
+                    [piece.Piece(2,1,0),0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0]]
+        """
         return newBoard
+    
+    def check_if_new_king(self):
+        for n in self.theBoard:
+            for j in n:
+                if (j != 0):
+                    if ((j.getPlayer() == 2) & (j.getIsKing()==False)):
+                        j.set_is_king()
+        return False
     
     """
     This method is the 'mainloop' of the app, when you click the GO button, this method is fired
@@ -107,6 +125,8 @@ class App(tk.Tk):
             self.computer.make_rule_based_move() #Not actually performing moves yet, I have this called for debugging purposes!
             self.theBoard = self.computer.get_board()
         
+        self.check_if_new_king()
+        self.computer.check_if_new_king()
         self.redrawFullBoard()
     
     """
@@ -133,6 +153,7 @@ class App(tk.Tk):
                 self.theBoard[xOPos][yOPos] = 0
                 self.theBoard[xNPos][yNPos] = piece.Piece(player, xNPos, yNPos)
         
+            self.check_if_new_king()
             self.redrawFullBoard()
             return True
         return False
@@ -158,8 +179,12 @@ class App(tk.Tk):
                 if (j != 0):
                     if (j.getPlayer() == 1):
                         self.circle[row, column] = self.canvas.create_oval(x1,y1,x2,y2, fill="red",tags="circle")
+                        if (j.getIsKing() == True):
+                            self.canvas.create_text(x1+30, y1+30, text="K")
                     elif (j.getPlayer() == 2):
                         self.circle[row, column] = self.canvas.create_oval(x1,y1,x2,y2, fill="blue",tags="circle")
+                        if (j.getIsKing() == True):
+                            self.canvas.create_text(x1+30, y1+30, text="K")
             row = row + 1
         self.from_entry.delete(0, tk.END)
         self.to_entry.delete(0, tk.END)
@@ -241,6 +266,14 @@ class ComputerPlayer():
         
     def get_board(self):
         return self.board
+    
+    def check_if_new_king(self):
+        for n in self.theBoard:
+            for j in n:
+                if (j != 0):
+                    if ((j.getPlayer() == 2) & (j.getIsKing()==False)):
+                        j.set_is_king()
+        return False
     
     def perform_move(self, current_pos, new_pos):
         xOPos = current_pos[0]
