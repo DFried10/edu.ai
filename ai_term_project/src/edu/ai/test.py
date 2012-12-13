@@ -308,6 +308,7 @@ class ComputerPlayer():
         return self.board
             
     def make_random_move(self):
+        global move_messages
         validMove = False
         for p in self.board:
             for check in p:
@@ -321,11 +322,13 @@ class ComputerPlayer():
             newY = current_pos[1] - 1
             new_pos = [newX, newY]
             if (self.validateMove(current_pos, new_pos)):
+                move_messages.set("Random Move!")
                 return self.perform_move(current_pos, new_pos)
             else:
                 newY = current_pos[1] + 1
                 new_pos = [newX, newY]
                 if (self.validateMove(current_pos, new_pos)):
+                    move_messages.set("Random Move!")
                     return self.perform_move(current_pos, new_pos)
     
     
@@ -341,10 +344,10 @@ class ComputerPlayer():
                         print(check.get_current_pos())
                         print(self.rule2(check))
                         if(self.rule2(check) != False):
-                            self.perform_move(check.get_current_pos(), self.rule2(check))
+                            return self.perform_move(check.get_current_pos(), self.rule2(check))
                             validMove = True
                         else:
-                            self.make_random_move()
+                            return self.make_random_move()
                             validMove = True
                     
     
