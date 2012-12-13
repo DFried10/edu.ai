@@ -98,13 +98,13 @@ class App(tk.Tk):
                     [piece.Piece(1,1,0),0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0],
                     [0,0,piece.Piece(2,3,2),0,0,0,0,0],
-                    [0,0,0,0,0,piece.Piece(1,4,5),0,0],
-                    [0,0,0,0,0,0,piece.Piece(2,5,6),0],
                     [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0.0,0],
+                    [0,0,0,0,0,piece.Piece(1,6,5),0,0],
                     [0,0,0,0,0,0,0,0]]
-        """
+        
         return newBoard
-    
+        """
     def restart_game(self):
         self.theBoard = self.createBoard()
         self.redrawFullBoard()
@@ -354,9 +354,7 @@ class ComputerPlayer():
             for check in p:
                 if((check != 0) and (check.player == 1)):
                     #This will look through all of the computer's pieces
-                    print(check.get_current_pos())
-                    print(self.rule2(check))
-                    if(self.rule2(check) != False):
+                    if(self.rule1(check) != False):
                         move_messages.set("Jump Rule Used")
                         return self.perform_move(check.get_current_pos(), self.rule1(check))
         
@@ -365,9 +363,7 @@ class ComputerPlayer():
             for check in p:
                 if((check != 0) and (check.player == 1)):
                     #This will look through all of the computer's pieces
-                    print(check.get_current_pos())
-                    print(self.rule2(check))
-                    if(self.rule2(check) != False):
+                    if(self.rule3(check) != False):
                         move_messages.set("King Rule Used")
                         return self.perform_move(check.get_current_pos(), self.rule3(check))
         
@@ -504,29 +500,29 @@ class ComputerPlayer():
         return False #None of these triggered the rule
             
         #Can it make a king?
-        def rule3(self,piece):
-            original_pos = piece.get_current_pos();
+    def rule3(self,piece):
+        original_pos = piece.get_current_pos();
+        
+        #Looking at the board:
+        #Down and to the right
+        newX = original_pos[0]+1
+        newY = original_pos[1]+1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            if(newX == 7):
+                return new_pos
+        
+        #Down and to the left
+        newX = original_pos[0]+1
+        newY = original_pos[1]-1
+        new_pos = [newX,newY]
+        if(self.validateMove(original_pos,new_pos)):
+            if(newX == 7):
+                return new_pos
+                                                    
+        #King's only - not required here!
             
-            #Looking at the board:
-            #Down and to the right
-            newX = original_pos[0]+1
-            newY = original_pos[1]+1
-            new_pos = [newX,newY]
-            if(self.validateMove(original_pos,new_pos)):
-                if(newX == 7):
-                    return new_pos
-            
-            #Down and to the left
-            newX = original_pos[0]+1
-            newY = original_pos[1]-1
-            new_pos = [newX,newY]
-            if(self.validateMove(original_pos,new_pos)):
-                if(newX == 7):
-                    return new_pos
-                                                        
-            #King's only - not required here!
-                
-            return False #None of these triggered the rule
+        return False #None of these triggered the rule
         
                 
     def find_piece(self):
