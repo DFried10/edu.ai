@@ -357,8 +357,8 @@ class ComputerPlayer():
                     print(check.get_current_pos())
                     print(self.rule2(check))
                     if(self.rule2(check) != False):
-                        move_messages.set("Rule 2 used!")
-                        return self.perform_move(check.get_current_pos(), self.rule2(check))
+                        move_messages.set("Jump Rule Used")
+                        return self.perform_move(check.get_current_pos(), self.rule1(check))
         
         #Second Rule
         for p in self.board:
@@ -368,8 +368,8 @@ class ComputerPlayer():
                     print(check.get_current_pos())
                     print(self.rule2(check))
                     if(self.rule2(check) != False):
-                        move_messages.set("Rule 2 used!")
-                        return self.perform_move(check.get_current_pos(), self.rule2(check))
+                        move_messages.set("King Rule Used")
+                        return self.perform_move(check.get_current_pos(), self.rule3(check))
         
         
         return self.make_random_move()
@@ -378,7 +378,7 @@ class ComputerPlayer():
     
     #Rule 1 is just a template for making more rule methods!
     #Iterates over all the possible moves a computer piece can make
-    def rule1(self,piece):
+    def ruleTemplate(self,piece):
         original_pos = piece.get_current_pos();
         
         #Looking at the board:
@@ -416,7 +416,7 @@ class ComputerPlayer():
         return False #None of these triggered the rule
         
     #Rule 2 checks for a player piece to jump on!
-    def rule2(self,piece):
+    def rule1(self,piece):
         original_pos = piece.get_current_pos();
         
         #Looking at the board:
@@ -466,7 +466,7 @@ class ComputerPlayer():
         return False #None of these triggered the rule
     
     #First move that doesn't endanger the piece (essentially an improved random move) Should be used last in the rule list in most cases
-    def rule3(self,piece):
+    def rule2(self,piece):
         original_pos = piece.get_current_pos();
         
         #Looking at the board:
@@ -504,7 +504,7 @@ class ComputerPlayer():
         return False #None of these triggered the rule
             
         #Can it make a king?
-        def rule4(self,piece):
+        def rule3(self,piece):
             original_pos = piece.get_current_pos();
             
             #Looking at the board:
