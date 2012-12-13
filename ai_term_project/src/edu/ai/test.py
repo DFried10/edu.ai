@@ -236,7 +236,7 @@ class App(tk.Tk):
         global error_messages
         global is_jump
         is_jump = False
-        if ((originPos[0] < 8) & (originPos[1] < 8) & (originPos[1] >= 0) & (newPos[0] < 8) & (newPos[1] <8) & (newPos[1] >= 0)):
+        if ((originPos[0] < 8) and (originPos[1] < 8) and (originPos[1] >= 0) and (newPos[0] < 8) and (newPos[1] <8) and (newPos[1] >= 0)):
             posValue = self.theBoard[originPos[0]][originPos[1]]
             newValue = self.theBoard[newPos[0]][newPos[1]]
             if (posValue == 0):
@@ -252,10 +252,10 @@ class App(tk.Tk):
                 if (newPos[1] == originPos[1]):
                     error_messages.set("Invalid Move Direction")
                     return False
-            if ((newPos[0]-originPos[0] > 1) | (newPos[0]-originPos[0] < -1)):
+            if ((newPos[0]-originPos[0] > 1) or (newPos[0]-originPos[0] < -1)):
                 error_messages.set("Invalid move range")
                 return False
-            if ((newPos[1]-originPos[1] > 1) | (newPos[1]-originPos[1] < -1)):
+            if ((newPos[1]-originPos[1] > 1) or (newPos[1]-originPos[1] < -1)):
                 error_messages.set("Invalid move range")
                 return False
             if (newValue != 0):
@@ -419,7 +419,7 @@ class ComputerPlayer():
             return True
                                                     
         #King's only
-        if(piece.getIsKing):
+        if(piece.getIsKing == True):
             
             #Up and to the right
             newX = original_pos[0]-1
@@ -463,7 +463,7 @@ class ComputerPlayer():
                     return [new_pos, self.check_if_jump(original_pos, new_pos)]
                                                     
         #King's only
-        if(piece.getIsKing):
+        if(piece.getIsKing == True):
             
             #Up and to the right
             newX = original_pos[0]-1
@@ -497,44 +497,200 @@ class ComputerPlayer():
         newY = original_pos[1]+1
         new_pos = [newX,newY]
         if(self.validateMove(original_pos,new_pos)):
+            #Start Here
+            safe = True
             lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
-            if(lookingAt != 0):
-                if(lookingAt.getPlayer() != 2):
-                    return [new_pos, self.check_if_jump(original_pos, new_pos)]
+            #Down and to the right
+            newX2 = newX + 1
+            newY2 = newY + 1
+            new_pos2 = [newX2,newY2]
+            if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                if(lookingAt2 != 0):
+                    if(lookingAt2.getPlayer() == 2):
+                        safe = False
+            #Down and to the left
+            newX2 = newX + 1
+            newY2 = newY - 1
+            new_pos2 = [newX2,newY2]
+            if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                if(lookingAt2 != 0):
+                    if(lookingAt2.getPlayer() == 2):
+                        safe = False
+            if(piece.getIsKing == True):
+                #Up and to the right
+                newX2 = newX - 1
+                newY2 = newY + 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+                #Up and to the left
+                newX2 = newX - 1
+                newY2 = newY - 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+            #End Here
+            if(safe == True):
+                return new_pos
         
         #Down and to the left
         newX = original_pos[0]+1
         newY = original_pos[1]-1
         new_pos = [newX,newY]
         if(self.validateMove(original_pos,new_pos)):
+            #Start Here
+            safe = True
             lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
-            if(lookingAt != 0):
-                if(lookingAt.getPlayer() != 2):
-                    return [new_pos, self.check_if_jump(original_pos, new_pos)]
+            #Down and to the right
+            newX2 = newX + 1
+            newY2 = newY + 1
+            new_pos2 = [newX2,newY2]
+            if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                if(lookingAt2 != 0):
+                    if(lookingAt2.getPlayer() == 2):
+                        safe = False
+            #Down and to the left
+            newX2 = newX + 1
+            newY2 = newY - 1
+            new_pos2 = [newX2,newY2]
+            if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                if(lookingAt2 != 0):
+                    if(lookingAt2.getPlayer() == 2):
+                        safe = False
+            if(piece.getIsKing == True):
+                #Up and to the right
+                newX2 = newX - 1
+                newY2 = newY + 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+                #Up and to the left
+                newX2 = newX - 1
+                newY2 = newY - 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+            #End Here
+            if(safe == True):
+                return new_pos
                                                     
         #King's only
-        if(piece.getIsKing):
+        if(piece.getIsKing == True):
             
             #Up and to the right
             newX = original_pos[0]-1
             newY = original_pos[1]+1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
+                #Start Here
+                safe = True
                 lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
-                if(lookingAt != 0):
-                    if(lookingAt.getPlayer() != 2):
-                        return [new_pos, self.check_if_jump(original_pos, new_pos)]
+                #Down and to the right
+                newX2 = newX + 1
+                newY2 = newY + 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+                #Down and to the left
+                newX2 = newX + 1
+                newY2 = newY - 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+                if(piece.getIsKing == True):
+                    #Up and to the right
+                    newX2 = newX - 1
+                    newY2 = newY + 1
+                    new_pos2 = [newX2,newY2]
+                    if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                        lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                        if(lookingAt2 != 0):
+                            if(lookingAt2.getPlayer() == 2):
+                                safe = False
+                    #Up and to the left
+                    newX2 = newX - 1
+                    newY2 = newY - 1
+                    new_pos2 = [newX2,newY2]
+                    if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                        lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                        if(lookingAt2 != 0):
+                            if(lookingAt2.getPlayer() == 2):
+                                safe = False
+                #End Here
+                if(safe == True):
+                    return new_pos
             
             #Up and to the left
             newX = original_pos[0]-1
             newY = original_pos[1]-1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
+                #Start Here
+                safe = True
                 lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
-                if(lookingAt != 0):
-                    if(lookingAt.getPlayer() != 2):
-                        return [new_pos, self.check_if_jump(original_pos, new_pos)]
-            
+                #Down and to the right
+                newX2 = newX + 1
+                newY2 = newY + 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+                #Down and to the left
+                newX2 = newX + 1
+                newY2 = newY - 1
+                new_pos2 = [newX2,newY2]
+                if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                    lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                    if(lookingAt2 != 0):
+                        if(lookingAt2.getPlayer() == 2):
+                            safe = False
+                if(piece.getIsKing == True):
+                    #Up and to the right
+                    newX2 = newX - 1
+                    newY2 = newY + 1
+                    new_pos2 = [newX2,newY2]
+                    if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                        lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                        if(lookingAt2 != 0):
+                            if(lookingAt2.getPlayer() == 2):
+                                safe = False
+                    #Up and to the left
+                    newX2 = newX - 1
+                    newY2 = newY - 1
+                    new_pos2 = [newX2,newY2]
+                    if((newX2 < 8) and (newX2 >= 0) and (newY2 < 8) and (newY2 >= 0)):
+                        lookingAt2 = self.get_board()[new_pos2[0]][new_pos2[1]]
+                        if(lookingAt2 != 0):
+                            if(lookingAt2.getPlayer() == 2):
+                                safe = False
+                #End Here
+                if(safe == True):
+                    return new_pos
+                
         return False #None of these triggered the rule
             
         #Can it make a king?
