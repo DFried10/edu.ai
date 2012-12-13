@@ -41,7 +41,7 @@ class App(tk.Tk):
         """
         Menu Options (For hopefully selecting AI style and what not)
         """
-        optionlist = ('Restart', 'Random', 'Rule-Based', 'Exit')
+        optionlist = ('Random', 'Rule-Based', 'Restart', 'Exit')
         option_str = tk.StringVar();
         option_str.set(optionlist[0])
         self.options = tk.OptionMenu(self, option_str, *optionlist)
@@ -93,11 +93,11 @@ class App(tk.Tk):
         return newBoard
     
     def check_if_new_king(self):
-        for n in self.theBoard:
-            for j in n:
-                if (j != 0):
-                    if ((j.getPlayer() == 2) & (j.getIsKing()==False)):
-                        j.set_is_king()
+        row = self.theBoard[0]
+        for n in row:
+            if (n != 0):
+                if ((n.getPlayer() == 2) & (n.getIsKing()==False)):
+                    n.set_is_king()
         return False
     
     """
@@ -153,7 +153,6 @@ class App(tk.Tk):
                 self.theBoard[xOPos][yOPos] = 0
                 self.theBoard[xNPos][yNPos] = piece.Piece(player, xNPos, yNPos)
         
-            self.check_if_new_king()
             self.redrawFullBoard()
             return True
         return False
@@ -268,11 +267,11 @@ class ComputerPlayer():
         return self.board
     
     def check_if_new_king(self):
-        for n in self.theBoard:
-            for j in n:
-                if (j != 0):
-                    if ((j.getPlayer() == 2) & (j.getIsKing()==False)):
-                        j.set_is_king()
+        row = self.board[7]
+        for n in row:
+                if (n != 0):
+                    if ((n.getPlayer() == 1) & (n.getIsKing()==False)):
+                        n.set_is_king()
         return False
     
     def perform_move(self, current_pos, new_pos):
