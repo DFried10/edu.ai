@@ -366,8 +366,18 @@ class ComputerPlayer():
                     if(self.rule3(check) != False):
                         move_messages.set("King Rule Used")
                         return self.perform_move(check.get_current_pos(), self.rule3(check))
+                    
+        #Third Rule
+        for p in self.board:
+            for check in p:
+                if((check != 0) and (check.player == 1)):
+                    #This will look through all of the computer's pieces
+                    if(self.rule2(check) != False):
+                        move_messages.set("Protective Random Used")
+                        return self.perform_move(check.get_current_pos(), self.rule2(check))
         
         
+        #If no rules were matched the game will make a random move
         return self.make_random_move()
                         
                     
