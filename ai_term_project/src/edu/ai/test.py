@@ -84,6 +84,7 @@ class App(tk.Tk):
     A piece must have knowledge of its initial position or it cannot do anything else
     """        
     def createBoard(self):
+        
         newBoard = [[0,piece.Piece(1,0,1),0,piece.Piece(1,0,3),0,piece.Piece(1,0,5),0,piece.Piece(1,0,7)],
                     [piece.Piece(1,1,0),0,piece.Piece(1,1,2),0,piece.Piece(1,1,4),0,piece.Piece(1,1,6),0],
                     [0,piece.Piece(1,2,1),0,piece.Piece(1,2,3),0,piece.Piece(1,2,5),0,piece.Piece(1,2,7)],
@@ -93,12 +94,12 @@ class App(tk.Tk):
                     [0,piece.Piece(2,6,1),0,piece.Piece(2,6,3),0,piece.Piece(2,6,5),0,piece.Piece(2,6,7)],
                     [piece.Piece(2,7,0),0,piece.Piece(2,7,2),0,piece.Piece(2,7,4),0,piece.Piece(2,7,6),0]]
         """
-        newBoard = [[0,0,0,0,0,0,0,piece.Piece(1,0,7)],
-                    [piece.Piece(2,1,0),0,0,0,0,0,0,0],
+        newBoard = [[0,0,0,0,0,0,0,0],
+                    [piece.Piece(1,1,0),0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0],
+                    [0,0,piece.Piece(2,3,2),0,0,0,0,0],
+                    [0,0,0,0,0,piece.Piece(1,4,5),0,0],
+                    [0,0,0,0,0,0,piece.Piece(2,5,6),0],
                     [0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0]]
         """
@@ -333,22 +334,33 @@ class ComputerPlayer():
     
     
     def make_rule_based_move(self):
+        global move_messages
         
-        validMove = False
-
-        while(validMove == False):
-            for p in self.board:
-                for check in p:
-                    if((check != 0) and (check.player == 1)):
-                        #This will look through all of the computer's pieces
-                        print(check.get_current_pos())
-                        print(self.rule2(check))
-                        if(self.rule2(check) != False):
-                            return self.perform_move(check.get_current_pos(), self.rule2(check))
-                            validMove = True
-                        else:
-                            return self.make_random_move()
-                            validMove = True
+        #First Rule
+        for p in self.board:
+            for check in p:
+                if((check != 0) and (check.player == 1)):
+                    #This will look through all of the computer's pieces
+                    print(check.get_current_pos())
+                    print(self.rule2(check))
+                    if(self.rule2(check) != False):
+                        move_messages.set("Rule 2 used!")
+                        return self.perform_move(check.get_current_pos(), self.rule2(check))
+        
+        #Second Rule
+        for p in self.board:
+            for check in p:
+                if((check != 0) and (check.player == 1)):
+                    #This will look through all of the computer's pieces
+                    print(check.get_current_pos())
+                    print(self.rule2(check))
+                    if(self.rule2(check) != False):
+                        move_messages.set("Rule 2 used!")
+                        return self.perform_move(check.get_current_pos(), self.rule2(check))
+        
+        
+        return self.make_random_move()
+                        
                     
     
     #Rule 1 is just a template for making more rule methods!
@@ -403,7 +415,7 @@ class ComputerPlayer():
             lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
             if(lookingAt != 0):
                 if(lookingAt.getPlayer() == 2):
-                    return new_pos
+                    return self.check_if_jump(original_pos,new_pos)
         
         #Down and to the left
         newX = original_pos[0]+1
@@ -413,7 +425,7 @@ class ComputerPlayer():
             lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
             if(lookingAt != 0):
                 if(lookingAt.getPlayer() == 2):
-                    return new_pos
+                    return self.check_if_jump(original_pos,new_pos)
                                                     
         #King's only
         if(piece.getIsKing):
