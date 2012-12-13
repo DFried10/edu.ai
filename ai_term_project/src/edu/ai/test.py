@@ -334,13 +334,13 @@ class ComputerPlayer():
                     if((check != 0) and (check.player == 1)):
                         #This will look through all of the computer's pieces
                         print(check.get_current_pos())
-                        print(self.rule2(check)) #Debugging
+                        print(self.rule2(check))
                         if(self.rule2(check) != False):
-                            #Move Piece
+                            self.perform_move(check.get_current_pos(), self.rule2(check))
                             validMove = True
                         else:
+                            self.make_random_move()
                             validMove = True
-                            #return self.perform_move(check.get_current_pos, self.rule1(check))
                     
     
     #Rule 1 is just a template for making more rule methods!
@@ -470,7 +470,30 @@ class ComputerPlayer():
             
         return False #None of these triggered the rule
             
-        
+        #Can it make a king?
+        def rule4(self,piece):
+            original_pos = piece.get_current_pos();
+            
+            #Looking at the board:
+            #Down and to the right
+            newX = original_pos[0]+1
+            newY = original_pos[1]+1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                if(newX == 7):
+                    return new_pos
+            
+            #Down and to the left
+            newX = original_pos[0]+1
+            newY = original_pos[1]-1
+            new_pos = [newX,newY]
+            if(self.validateMove(original_pos,new_pos)):
+                if(newX == 7):
+                    return new_pos
+                                                        
+            #King's only - not required here!
+                
+            return False #None of these triggered the rule
         
                 
     def find_piece(self):
