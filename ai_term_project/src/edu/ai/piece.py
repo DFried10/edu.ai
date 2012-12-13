@@ -41,3 +41,6 @@ class Piece:
     def set_new_pos(self, val):
         self.position = val
         
+    def set_is_king(self):
+        self.is_king = True
+        
