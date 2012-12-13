@@ -299,14 +299,27 @@ class ComputerPlayer():
         return False
     
     def perform_move(self, current_pos, new_pos):
+        global is_jump
         xOPos = current_pos[0]
         yOPos = current_pos[1]
-        xNPos = new_pos[0]
-        yNPos = new_pos[1]
-        player = self.board[xOPos][yOPos].getPlayer()
-        self.board[xOPos][yOPos] = 0
-        self.board[xNPos][yNPos] = piece.Piece(player, xNPos, yNPos)
-        return self.board
+        
+        if (is_jump == False):
+            xNPos = new_pos[0]
+            yNPos = new_pos[1]
+            player = self.board[xOPos][yOPos].getPlayer()
+            self.board[xOPos][yOPos] = 0
+            self.board[xNPos][yNPos] = piece.Piece(player, xNPos, yNPos)
+            return self.board
+        else:
+            xNPos = new_pos[0][0]
+            yNPos = new_pos[0][1]
+            xJPos = new_pos[1][0]
+            yJPos = new_pos[1][1]
+            player = self.board[xOPos][yOPos].getPlayer()
+            self.board[xOPos][yOPos] = 0
+            self.board[xNPos][yNPos] = 0
+            self.board[xJPos][yJPos] = piece.Piece(player, xJPos, yJPos)
+            return self.board
             
     def make_random_move(self):
         global move_messages
@@ -415,7 +428,7 @@ class ComputerPlayer():
             lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
             if(lookingAt != 0):
                 if(lookingAt.getPlayer() == 2):
-                    return self.check_if_jump(original_pos,new_pos)
+                    return [new_pos, self.check_if_jump(original_pos, new_pos)]
         
         #Down and to the left
         newX = original_pos[0]+1
@@ -425,7 +438,7 @@ class ComputerPlayer():
             lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
             if(lookingAt != 0):
                 if(lookingAt.getPlayer() == 2):
-                    return self.check_if_jump(original_pos,new_pos)
+                    return [new_pos, self.check_if_jump(original_pos, new_pos)]
                                                     
         #King's only
         if(piece.getIsKing):
@@ -438,7 +451,7 @@ class ComputerPlayer():
                 lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
                 if(lookingAt != 0):
                     if(lookingAt.getPlayer() == 2):
-                        return new_pos
+                        return [new_pos, self.check_if_jump(original_pos, new_pos)]
             
             #Up and to the left
             newX = original_pos[0]-1
@@ -448,7 +461,7 @@ class ComputerPlayer():
                 lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
                 if(lookingAt != 0):
                     if(lookingAt.getPlayer() == 2):
-                        return new_pos
+                        return [new_pos, self.check_if_jump(original_pos, new_pos)]
             
         return False #None of these triggered the rule
     
@@ -538,12 +551,12 @@ class ComputerPlayer():
         
         check_jump = {}
         if (newPos[1] > originPos[1]):
-            check_jump = self.theBoard[newPos[0]+1][newPos[1]+1]
+            check_jump = self.board[newPos[0]+1][newPos[1]+1]
             jPos = [newPos[0]+1, newPos[1]+1]
             if (check_jump == 0):
                 return jPos
         elif (newPos[1] < originPos[1]):
-            check_jump = self.theBoard[newPos[0]+1][newPos[1]-1]
+            check_jump = self.board[newPos[0]+1][newPos[1]-1]
             jPos = [newPos[0]+1, newPos[1]-1]
             if (check_jump == 0):
                 return jPos
