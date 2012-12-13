@@ -365,14 +365,20 @@ class ComputerPlayer():
             newY = original_pos[1]+1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
-                return new_pos
+                lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+                if(lookingAt != 0):
+                    if(lookingAt.getPlayer() == 2):
+                        return new_pos
             
             #Up and to the left
             newX = original_pos[0]-1
             newY = original_pos[1]-1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
-                return new_pos
+                lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+                if(lookingAt != 0):
+                    if(lookingAt.getPlayer() == 2):
+                        return new_pos
             
         return False #None of these triggered the rule
     
