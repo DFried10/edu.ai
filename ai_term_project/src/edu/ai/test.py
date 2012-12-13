@@ -11,7 +11,6 @@ import random as rand
 import sys as system
 from sys import argv
 from edu.ai import piece
-#from edu.ai import rule
 
 #Global variables
 option_str = ''
@@ -41,11 +40,19 @@ class App(tk.Tk):
         """
         Menu Options (For hopefully selecting AI style and what not)
         """
-        optionlist = ('Random', 'Rule-Based', 'Restart', 'Exit')
+        ai_label = tk.Label(self, text="AI Type:")
+        ai_label.grid(row=0,column=0)
+        optionlist = ('Random', 'Rule-Based')
         option_str = tk.StringVar();
         option_str.set(optionlist[0])
         self.options = tk.OptionMenu(self, option_str, *optionlist)
-        self.options.grid(row=0, column=0)
+        self.options.grid(row=0, column=1)
+        #Restart button
+        self.restart_button = tk.Button(self, text="Restart",command=self.restart_game,padx=20)
+        self.restart_button.grid(row=0, column=2)
+        #Exit button
+        self.exit_button = tk.Button(self, text="Exit",command=self.exit_game,padx=20)
+        self.exit_button.grid(row=0,column=3)
         
         self.cellwidth = 62.5
         self.cellheight = 62.5
@@ -56,12 +63,12 @@ class App(tk.Tk):
         self.computer = ComputerPlayer(self.theBoard)
         self.redrawFullBoard()
         
+        """
         def optionCallBack(self, *args):
             if (option_str.get() == 'Exit'):
-                system.exit();
+                system.exit(0)                
         option_str.trace('w', optionCallBack)
-        
-        
+        """       
     
     """
     Generates the initial gamestate, each piece is its own class called Piece.
@@ -91,6 +98,13 @@ class App(tk.Tk):
                     [0,0,0,0,0,0,0,0]]
         """
         return newBoard
+    
+    def restart_game(self):
+        self.theBoard = self.createBoard()
+        self.redrawFullBoard()
+        
+    def exit_game(self):
+        system.exit(0)
     
     def check_if_new_king(self):
         row = self.theBoard[0]
