@@ -106,6 +106,7 @@ class App(tk.Tk):
     def makeMove(self):
         global error_messages
         global is_jump
+        global option_str
         originLoc = self.from_entry.get()
         newLoc = self.to_entry.get()
         error_messages.set("Move = " + originLoc + " -> " + newLoc)
@@ -121,8 +122,11 @@ class App(tk.Tk):
         
             #Controls computer move    
             self.computer.update_board(self.theBoard)
-            self.computer.make_random_move() 
-            self.computer.make_rule_based_move() #Not actually performing moves yet, I have this called for debugging purposes!
+            if (option_str.get() == "Random"):
+                self.computer.make_random_move() 
+            elif (option_str.get() == "Rule-Based"):
+                self.computer.make_rule_based_move() #Not actually performing moves yet, I have this called for debugging purposes!
+                
             self.theBoard = self.computer.get_board()
         
         self.check_if_new_king()
