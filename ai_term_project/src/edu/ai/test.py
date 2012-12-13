@@ -16,6 +16,7 @@ from edu.ai import piece
 #Global variables
 option_str = ''
 error_messages = 0
+move_message = 0
 is_jump = False
 
 class App(tk.Tk):
@@ -23,8 +24,11 @@ class App(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         global error_messages
         global option_str
+        global move_message
         error_messages = tk.StringVar()
         error_messages.set("")
+        move_message = tk.StringVar()
+        move_message.set("")
         self.canvas = tk.Canvas(self, width="500", height="500", borderwidth="0")
         self.from_entry = tk.Entry(self)
         self.to_entry = tk.Entry(self)
@@ -32,6 +36,7 @@ class App(tk.Tk):
         fromLabel = tk.Label(self, text="From Position:")
         toLabel = tk.Label(self, text="To Position:")
         tk.Label(self, textvariable=error_messages).grid(row=3, column=0, columnspan=5)
+        tk.Label(self, textvariable=move_message).grid(row=4, column=0,columnspan=5)
         fromLabel.grid(row=2, column=0)
         self.from_entry.grid(row=2, column=1)
         toLabel.grid(row=2, column=2)
@@ -106,6 +111,7 @@ class App(tk.Tk):
     def makeMove(self):
         global error_messages
         global is_jump
+
         originLoc = self.from_entry.get()
         newLoc = self.to_entry.get()
         error_messages.set("Move = " + originLoc + " -> " + newLoc)
@@ -308,6 +314,8 @@ class ComputerPlayer():
     
     def make_rule_based_move(self):
         
+        global move_message
+        
         validMove = False
 
         while(validMove == False):
@@ -320,6 +328,7 @@ class ComputerPlayer():
                         if(self.rule2(check) != False):
                             #Move Piece
                             validMove = True
+                            move_message.set("Hello!")
                         else:
                             validMove = True
                             #return self.perform_move(check.get_current_pos, self.rule1(check))
