@@ -102,9 +102,9 @@ class App(tk.Tk):
                     [0,0,0,0,0,0.0,0],
                     [0,0,0,0,0,piece.Piece(1,6,5),0,0],
                     [0,0,0,0,0,0,0,0]]
-        
-        return newBoard
         """
+        return newBoard
+    
     def restart_game(self):
         self.theBoard = self.createBoard()
         self.redrawFullBoard()
@@ -127,31 +127,33 @@ class App(tk.Tk):
         global error_messages
         global is_jump
         global option_str
-        originLoc = self.from_entry.get()
-        newLoc = self.to_entry.get()
-        error_messages.set("Move = " + originLoc + " -> " + newLoc)
         
-        originPos = [int(n) for n in originLoc.split(",")]
-        newPos = [int(n) for n in newLoc.split(",")]
-        """
-        If the move is valid, makes the player's move is successful, and the computer goes
-        """
-        if (self.validateMove(originPos, newPos)):
-            self.playerMove(originPos, newPos)
-            self.redrawFullBoard()
+        if (self.is_game_over() == False):
+            originLoc = self.from_entry.get()
+            newLoc = self.to_entry.get()
+            error_messages.set("Move = " + originLoc + " -> " + newLoc)
         
-            #Controls computer move    
-            self.computer.update_board(self.theBoard)
-            if (option_str.get() == "Random"):
-                self.computer.make_random_move() 
-            elif (option_str.get() == "Rule-Based"):
-                self.computer.make_rule_based_move() #Not actually performing moves yet, I have this called for debugging purposes!
+            originPos = [int(n) for n in originLoc.split(",")]
+            newPos = [int(n) for n in newLoc.split(",")]
+            """
+            If the move is valid, makes the player's move is successful, and the computer goes
+            """
+            if (self.validateMove(originPos, newPos)):
+                self.playerMove(originPos, newPos)
+                self.redrawFullBoard()
+        
+                #Controls computer move    
+                self.computer.update_board(self.theBoard)
+                if (option_str.get() == "Random"):
+                    self.computer.make_random_move() 
+                elif (option_str.get() == "Rule-Based"):
+                    self.computer.make_rule_based_move() #Not actually performing moves yet, I have this called for debugging purposes!
                 
-            self.theBoard = self.computer.get_board()
+                self.theBoard = self.computer.get_board()
         
-        self.check_if_new_king()
-        self.computer.check_if_new_king()
-        self.redrawFullBoard()
+            self.check_if_new_king()
+            self.computer.check_if_new_king()
+            self.redrawFullBoard()
     
     """
     This is the logic for determining a players move, whether it's valid, and whether it is a jump or not
@@ -181,6 +183,20 @@ class App(tk.Tk):
             return True
         return False
     
+    def is_game_over(self):
+        comp_pieces = 0
+        player_pieces = 0
+        for rows in self.theBoard:
+            for square in rows:
+                if (square != 0):
+                    if (square.getPlayer() == 1):
+                        comp_pieces += 1
+                    else:
+                        player_pieces += 1
+        if ((player_pieces<=0)|(comp_pieces<=0)):
+            return True
+        
+        return False
     """
     Function to redraw the checkers board whenever a change is made
     """        
