@@ -195,9 +195,9 @@ class App(tk.Tk):
                 x2 = x1+self.cellwidth
                 y2 = y1+self.cellheight
                 if ((column % 2 == 0) ^ (row % 2 == 0)):
-                    self.rect[row,column] = self.canvas.create_rectangle(x1,y1,x2,y2,fill="white",tags="rect")
-                else:
                     self.rect[row,column] = self.canvas.create_rectangle(x1,y1,x2,y2,fill="black",tags="rect")
+                else:
+                    self.rect[row,column] = self.canvas.create_rectangle(x1,y1,x2,y2,fill="white",tags="rect")
                 column = column + 1
                 if (j != 0):
                     if (j.getPlayer() == 1):
