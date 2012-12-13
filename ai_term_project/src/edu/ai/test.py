@@ -456,7 +456,7 @@ class ComputerPlayer():
             
         return False #None of these triggered the rule
             
-        
+        #Can it make a king?
         def rule4(self,piece):
             original_pos = piece.get_current_pos();
             
@@ -466,31 +466,18 @@ class ComputerPlayer():
             newY = original_pos[1]+1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
-                return True
+                if(newX == 7):
+                    return new_pos
             
             #Down and to the left
             newX = original_pos[0]+1
             newY = original_pos[1]-1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
-                return True
+                if(newX == 7):
+                    return new_pos
                                                         
-            #King's only
-            if(piece.getIsKing):
-                
-                #Up and to the right
-                newX = original_pos[0]-1
-                newY = original_pos[1]+1
-                new_pos = [newX,newY]
-                if(self.validateMove(original_pos,new_pos)):
-                    return True
-                
-                #Up and to the left
-                newX = original_pos[0]-1
-                newY = original_pos[1]-1
-                new_pos = [newX,newY]
-                if(self.validateMove(original_pos,new_pos)):
-                    return True
+            #King's only - not required here!
                 
             return False #None of these triggered the rule
         
