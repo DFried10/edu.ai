@@ -497,14 +497,20 @@ class ComputerPlayer():
         newY = original_pos[1]+1
         new_pos = [newX,newY]
         if(self.validateMove(original_pos,new_pos)):
-            return True
+            lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+            if(lookingAt != 0):
+                if(lookingAt.getPlayer() != 2):
+                    return [new_pos, self.check_if_jump(original_pos, new_pos)]
         
         #Down and to the left
         newX = original_pos[0]+1
         newY = original_pos[1]-1
         new_pos = [newX,newY]
         if(self.validateMove(original_pos,new_pos)):
-            return True
+            lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+            if(lookingAt != 0):
+                if(lookingAt.getPlayer() != 2):
+                    return [new_pos, self.check_if_jump(original_pos, new_pos)]
                                                     
         #King's only
         if(piece.getIsKing):
@@ -514,14 +520,20 @@ class ComputerPlayer():
             newY = original_pos[1]+1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
-                return True
+                lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+                if(lookingAt != 0):
+                    if(lookingAt.getPlayer() != 2):
+                        return [new_pos, self.check_if_jump(original_pos, new_pos)]
             
             #Up and to the left
             newX = original_pos[0]-1
             newY = original_pos[1]-1
             new_pos = [newX,newY]
             if(self.validateMove(original_pos,new_pos)):
-                return True
+                lookingAt = self.get_board()[new_pos[0]][new_pos[1]]
+                if(lookingAt != 0):
+                    if(lookingAt.getPlayer() != 2):
+                        return [new_pos, self.check_if_jump(original_pos, new_pos)]
             
         return False #None of these triggered the rule
             
