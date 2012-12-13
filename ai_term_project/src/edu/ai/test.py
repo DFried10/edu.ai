@@ -15,15 +15,19 @@ from edu.ai import piece
 #Global variables
 option_str = ''
 error_messages = 0
+move_messages = 0
 is_jump = False
 
 class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         global error_messages
+        global move_messages
         global option_str
         error_messages = tk.StringVar()
         error_messages.set("")
+        move_messages = tk.StringVar()
+        move_messages.set("")
         self.canvas = tk.Canvas(self, width="500", height="500", borderwidth="0")
         self.from_entry = tk.Entry(self)
         self.to_entry = tk.Entry(self)
@@ -31,6 +35,7 @@ class App(tk.Tk):
         fromLabel = tk.Label(self, text="From Position:")
         toLabel = tk.Label(self, text="To Position:")
         tk.Label(self, textvariable=error_messages).grid(row=3, column=0, columnspan=5)
+        tk.Label(self, textvariable=move_messages).grid(row=4, column=0, columnspan=5)
         fromLabel.grid(row=2, column=0)
         self.from_entry.grid(row=2, column=1)
         toLabel.grid(row=2, column=2)
