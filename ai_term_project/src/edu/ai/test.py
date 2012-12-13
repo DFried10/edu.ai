@@ -328,9 +328,13 @@ class ComputerPlayer():
                         if(self.rule2(check) != False):
                             #Move Piece
                             validMove = True
-                            move_message.set("Hello!")
+                            move_message.set("Computer made move based on Rule 1!")
+                        elif(self.rule3(check)):
+                            validMove = True
+                            move_message.set("Computer made move based on Rule 2")
                         else:
                             validMove = True
+                            move_message.set("Computer made a random move because no rules were matched!")
                             #return self.perform_move(check.get_current_pos, self.rule1(check))
                     
     
